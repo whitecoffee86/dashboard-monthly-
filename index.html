@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>포트폴리오</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#07090f;--s1:#0d1117;--s2:#111827;--s3:#1a2235;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+  --blue:#3b82f6;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#a78bfa;
+  --text:#f1f5f9;--t2:#94a3b8;--t3:#64748b;--r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(59,130,246,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:20px 16px 60px;}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:20px 0 24px;border-bottom:1px solid var(--border);margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.hdr-logo{display:flex;align-items:center;gap:12px;}
+.hdr-logo-mark{width:44px;height:44px;background:linear-gradient(135deg,#1d4ed8,#7c3aed);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 24px rgba(59,130,246,0.3);}
+.hdr-logo h1{font-family:'Pretendard',sans-serif;font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.hdr-logo p{font-size:11px;color:var(--t3);margin-top:2px;}
+.hdr-right{display:flex;align-items:center;gap:10px;}
+.pill{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border2);color:var(--t2);font-family:'DM Mono',monospace;}
+.pill.live{background:rgba(16,185,129,.1);color:var(--green);border-color:rgba(16,185,129,.25);}
+.btn{display:flex;align-items:center;gap:6px;background:var(--blue);color:#fff;border:none;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s;box-shadow:0 0 20px rgba(59,130,246,0.25);}
+.btn:hover{background:#2563eb;transform:translateY(-1px);}
+.btn svg{width:14px;height:14px;}
+
+/* TIER */
+.tier-strip{background:linear-gradient(120deg,rgba(124,58,237,.15),rgba(59,130,246,.1));border:1px solid rgba(124,58,237,.2);border-radius:var(--r);padding:16px 22px;display:flex;align-items:center;gap:20px;margin-bottom:16px;flex-wrap:wrap;}
+.tier-emoji{font-size:32px;flex-shrink:0;}
+.tier-info{flex:1;min-width:160px;}
+.tier-name{font-family:'Pretendard',sans-serif;font-size:16px;font-weight:900;}
+.tier-desc{font-size:11px;color:var(--t2);margin-top:2px;}
+.tier-progress{flex:2;min-width:180px;}
+.tp-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:5px;font-family:'DM Mono',monospace;}
+.tp-track{height:6px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;}
+.tp-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#7c3aed,#c084fc);transition:width 1.2s cubic-bezier(.17,.67,.35,1.05);}
+.tier-stats{display:flex;gap:24px;flex-shrink:0;}
+.ts{text-align:center;}
+.ts-val{font-family:'Pretendard',sans-serif;font-size:16px;font-weight:900;}
+.ts-lbl{font-size:10px;color:var(--t3);margin-top:2px;letter-spacing:.5px;text-transform:uppercase;}
+
+/* STATUS */
+.status-bar{display:flex;align-items:center;gap:10px;background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:11px 18px;margin-bottom:20px;flex-wrap:wrap;}
+.sb-icon{font-size:18px;}.sb-text{font-size:13px;font-weight:600;}.sb-sub{font-size:12px;color:var(--t3);margin-left:auto;font-family:'DM Mono',monospace;}
+
+/* TABS */
+.tabs{display:flex;gap:4px;background:var(--s1);border:1px solid var(--border);padding:4px;border-radius:12px;margin-bottom:20px;overflow-x:auto;}
+.tab-btn{flex:1;min-width:70px;padding:9px 12px;border-radius:9px;font-size:13px;font-weight:700;border:none;background:none;color:var(--t3);cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s;white-space:nowrap;}
+.tab-btn.on{background:var(--s3);color:var(--text);box-shadow:0 1px 8px rgba(0,0,0,.3);}
+.tab-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:transparent;margin-right:5px;vertical-align:middle;}
+.tab-btn.on .tab-dot{background:var(--blue);}
+.panel{display:none;}
+.panel.on{display:block;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.kpi{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:18px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s;}
+.kpi:hover{transform:translateY(-2px);border-color:var(--border2);}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.kpi.bl::after{background:linear-gradient(90deg,var(--blue),transparent);}
+.kpi.gr::after{background:linear-gradient(90deg,var(--green),transparent);}
+.kpi.am::after{background:linear-gradient(90deg,var(--amber),transparent);}
+.kpi.re::after{background:linear-gradient(90deg,var(--red),transparent);}
+.kpi-lbl{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px;}
+.kpi-val{font-family:'Pretendard',sans-serif;font-size:22px;font-weight:900;line-height:1;margin-bottom:8px;letter-spacing:-.5px;}
+.kpi-sub{font-size:11px;color:var(--t2);display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;}
+.tag.p{background:rgba(16,185,129,.12);color:var(--green);}
+.tag.n{background:rgba(239,68,68,.12);color:var(--red);}
+.tag.u{background:rgba(100,116,139,.12);color:var(--t2);}
+
+/* CASHFLOW */
+.cf-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px;}
+.cf-title{font-size:12px;color:var(--t3);font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:14px;}
+.cf-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.cf-item{background:var(--s2);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--border);}
+.cf-ico{font-size:20px;margin-bottom:6px;}.cf-lbl{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.cf-val{font-family:'Pretendard',sans-serif;font-size:17px;font-weight:900;margin-top:5px;letter-spacing:-.5px;}
+
+/* GRID LAYOUTS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+.card-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+.card-sub{font-size:11px;color:var(--t3);margin-bottom:16px;}
+
+/* RECORDS */
+.rec-list{display:flex;flex-direction:column;gap:10px;}
+.rec-item{display:flex;align-items:center;gap:12px;background:var(--s2);border-radius:10px;padding:12px 14px;border:1px solid var(--border);}
+.rec-ico{font-size:22px;flex-shrink:0;}
+.rec-lbl{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px;}
+.rec-val{font-size:15px;font-weight:800;font-family:'Pretendard',sans-serif;letter-spacing:-.3px;}
+.rec-date{font-size:11px;color:var(--t2);margin-top:2px;}
+
+/* ATH */
+.ath-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:0;}
+.ath-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+.ath-lbl{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;}
+.ath-val{font-family:'Pretendard',sans-serif;font-size:17px;font-weight:900;line-height:1;letter-spacing:-.3px;}
+.ath-sub{font-size:11px;color:var(--t2);margin-top:4px;}
+
+/* OUTPERFORM */
+.op-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.op-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:18px;position:relative;overflow:hidden;}
+.op-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.op-mine::after{background:linear-gradient(90deg,var(--blue),transparent);}
+.op-kos::after{background:linear-gradient(90deg,var(--amber),transparent);}
+.op-sp::after{background:linear-gradient(90deg,var(--green),transparent);}
+.op-lbl{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;}
+.op-val{font-family:'Pretendard',sans-serif;font-size:28px;font-weight:900;line-height:1;margin-bottom:6px;letter-spacing:-1px;}
+.op-diff{font-size:12px;font-weight:700;margin-bottom:4px;}
+.op-hypo{font-size:11px;color:var(--t3);}
+
+/* CHARTS */
+.chart-wrap{position:relative;}
+.ch260{height:260px;}.ch220{height:220px;}.ch200{height:200px;}.ch180{height:180px;}
+.legend{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.tab-row{display:flex;gap:2px;background:rgba(255,255,255,.04);padding:3px;border-radius:10px;}
+.tab{padding:5px 12px;border-radius:7px;font-size:12px;cursor:pointer;color:var(--muted);transition:all .15s;font-weight:600;border:none;background:none;font-family:'Noto Sans KR',sans-serif;}
+.tab.active{background:var(--blue);color:#fff;}
+
+/* HOLDINGS */
+.h-hdr{display:grid;grid-template-columns:56px 1fr 44px 72px 60px;gap:0;padding:0 2px;margin-bottom:6px;}
+.h-hdr span{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.4px;text-transform:uppercase;}
+.h-hdr span:not(:first-child){text-align:right;}
+.h-list{display:flex;flex-direction:column;gap:8px;}
+.h-item{display:grid;grid-template-columns:56px 1fr 44px 72px 60px;gap:0;align-items:center;}
+.h-ticker{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;}
+.h-bar-wrap{padding:0 10px;}
+.h-bar-track{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.h-bar-fill{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.17,.67,.35,1.05);}
+.h-pct,.h-amt,.h-ret{font-family:'DM Mono',monospace;font-size:12px;text-align:right;}
+.h-pct{color:var(--t2);}.h-amt{color:var(--t3);}
+
+/* GOALS */
+.goal-list{display:flex;flex-direction:column;gap:16px;}
+.goal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.goal-lbl{font-size:13px;font-weight:600;}
+.goal-pct{font-family:'Pretendard',sans-serif;font-size:14px;font-weight:900;}
+.goal-track{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-bottom:4px;}
+.goal-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.17,.67,.35,1.05);}
+.goal-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);}
+
+/* CONTRIBUTION */
+.contrib-empty{font-size:12px;color:var(--t3);background:var(--s2);border-radius:10px;padding:16px;line-height:1.7;border:1px solid var(--border);margin-top:12px;}
+.contrib-summary{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12px;color:var(--t2);line-height:1.6;}
+
+/* DIVIDEND */
+.div-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.div-stat{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+.div-stat-ico{font-size:22px;margin-bottom:6px;}
+.div-stat-lbl{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.div-stat-val{font-family:'Pretendard',sans-serif;font-size:20px;font-weight:900;margin-top:6px;letter-spacing:-.5px;}
+.div-hist{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+.div-row{display:flex;align-items:center;justify-content:space-between;background:var(--s2);border-radius:8px;padding:11px 16px;border:1px solid var(--border);}
+.div-row-date{font-size:13px;font-weight:600;}
+.div-row-amt{font-family:'Pretendard',sans-serif;font-size:15px;font-weight:900;color:var(--green);}
+.div-empty{text-align:center;color:var(--t3);padding:24px;font-size:13px;line-height:1.7;}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+thead th{text-align:right;padding:8px 10px;color:var(--t3);font-weight:700;font-size:10px;letter-spacing:.4px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;}
+thead th:first-child{text-align:left;}
+tbody tr{transition:background .12s;}
+tbody tr:hover{background:rgba(255,255,255,.02);}
+tbody tr.latest td{background:rgba(59,130,246,.06);}
+tbody td{padding:9px 10px;text-align:right;font-family:'Pretendard',sans-serif;font-size:12px;font-weight:600;color:var(--t2);border-bottom:1px solid rgba(255,255,255,.03);white-space:nowrap;}
+tbody td:first-child{text-align:left;font-size:12px;color:var(--text);font-weight:700;}
+tbody tr:last-child td{border-bottom:none;}
+.p{color:var(--green)!important;}.n{color:var(--red)!important;}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.overlay.open{display:flex;}
+.modal{background:#0f1827;border:1px solid var(--border2);border-radius:20px;padding:28px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;animation:slideUp .22s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.m-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;}
+.m-title{font-family:'Pretendard',sans-serif;font-size:18px;font-weight:900;}
+.m-sub{font-size:12px;color:var(--t3);margin-top:3px;}
+.m-close{background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px;padding:2px;transition:color .15s;}
+.m-close:hover{color:var(--text);}
+.m-sec{margin-bottom:20px;}
+.m-sec-title{font-size:10px;font-weight:800;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fg-grp{display:flex;flex-direction:column;gap:5px;}
+.fg-grp.span2{grid-column:1/-1;}
+.flbl{font-size:11px;color:var(--t2);font-weight:700;}
+.finp{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:9px;padding:10px 13px;color:var(--text);font-size:14px;font-family:'DM Mono',monospace;transition:border-color .15s;width:100%;}
+.finp:focus{outline:none;border-color:var(--blue);background:rgba(59,130,246,.05);}
+.finp::placeholder{color:var(--t3);}
+.fhint{font-size:10px;color:var(--t3);margin-top:1px;}
+.calc-box{background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:14px;margin-top:14px;}
+.calc-ttl{font-size:10px;color:var(--blue);font-weight:800;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase;}
+.calc-row{display:flex;justify-content:space-between;padding:3px 0;}
+.calc-lbl{font-size:11px;color:var(--t2);}
+.calc-val{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;}
+.calc-val.p{color:var(--green)!important;}.calc-val.n{color:var(--red)!important;}
+.calc-div{border:none;border-top:1px solid var(--border);margin:7px 0;}
+.hi-hdr-row{display:grid;grid-template-columns:64px 1fr 1fr 1fr;gap:8px;margin-bottom:4px;}
+.hi-hdr-row span{font-size:10px;color:var(--t3);font-weight:700;}
+.hi-row{display:grid;grid-template-columns:64px 1fr 1fr 1fr;gap:8px;align-items:center;margin-bottom:7px;}
+.hi-lbl{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;}
+.m-btns{display:flex;gap:10px;margin-top:20px;}
+.btn-save{flex:1;background:var(--blue);color:#fff;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:background .15s;}
+.btn-save:hover{background:#2563eb;}
+.btn-cancel{background:rgba(255,255,255,.05);color:var(--t2);border:1px solid var(--border);padding:12px 18px;border-radius:10px;font-size:14px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:#0f1827;border:1px solid rgba(16,185,129,.35);color:var(--green);padding:11px 22px;border-radius:10px;font-size:13px;font-weight:600;z-index:2000;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media(max-width:900px){.kpi-grid{grid-template-columns:1fr 1fr;}.op-grid{grid-template-columns:1fr;}.two-col{grid-template-columns:1fr;}.three-col{grid-template-columns:1fr;}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr;}.cf-row{grid-template-columns:1fr;}.fg{grid-template-columns:1fr;}.hi-row{grid-template-columns:60px 1fr 1fr;}.hi-row .finp:last-child,.hi-hdr-row span:last-child{display:none;}.div-summary{grid-template-columns:1fr 1fr;}.ath-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="hdr">
+  <div class="hdr-logo">
+    <div class="hdr-logo-mark">📈</div>
+    <div><h1>포트폴리오</h1><p>개인 자산 관리 대시보드</p></div>
+  </div>
+  <div class="hdr-right">
+    <span class="pill" id="updLabel"></span>
+    <span class="pill live">● 운용중</span>
+    <button class="btn" onclick="editingIdx=-1;openModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>데이터 입력
+    </button>
+  </div>
+</header>
+
+<div class="tier-strip">
+  <div class="tier-emoji" id="tierEmoji"></div>
+  <div class="tier-info"><div class="tier-name" id="tierName"></div><div class="tier-desc" id="tierDesc"></div></div>
+  <div class="tier-progress">
+    <div class="tp-labels"><span id="tpL"></span><span id="tpR"></span></div>
+    <div class="tp-track"><div class="tp-fill" id="tpFill" style="width:0%"></div></div>
+  </div>
+  <div class="tier-stats">
+    <div class="ts"><div class="ts-val" id="tsCagr"></div><div class="ts-lbl" id="tsCagrLbl">CAGR</div></div>
+    <div class="ts"><div class="ts-val" id="tsPeriod"></div><div class="ts-lbl">투자기간</div></div>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="sb-icon" id="sbIcon"></div>
+  <div class="sb-text" id="sbText"></div>
+  <div class="sb-sub" id="sbSub"></div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn on" onclick="showTab('summary',this)"><span class="tab-dot"></span>요약</button>
+  <button class="tab-btn" onclick="showTab('analysis',this)"><span class="tab-dot"></span>분석</button>
+  <button class="tab-btn" onclick="showTab('portfolio',this)"><span class="tab-dot"></span>포트폴리오</button>
+  <button class="tab-btn" onclick="showTab('dividend',this)"><span class="tab-dot"></span>💵 배당</button>
+  <button class="tab-btn" onclick="showTab('history',this)"><span class="tab-dot"></span>내역</button>
+</div>
+
+<!-- ══ TAB: 요약 ══ -->
+<div class="panel on" id="tab-summary">
+  <div class="kpi-grid">
+    <div class="kpi bl"><div class="kpi-lbl">현재 자산</div><div class="kpi-val" id="k-asset" style="color:#60a5fa"></div><div class="kpi-sub" id="k-asset-sub"></div></div>
+    <div class="kpi gr"><div class="kpi-lbl">누적 수익금</div><div class="kpi-val" id="k-cumpl"></div><div class="kpi-sub" id="k-cumpl-sub"></div></div>
+    <div class="kpi am"><div class="kpi-lbl">총 입금액</div><div class="kpi-val" id="k-inout" style="color:#fbbf24"></div><div class="kpi-sub" id="k-period"></div></div>
+    <div class="kpi re"><div class="kpi-lbl">이번 달 손익</div><div class="kpi-val" id="k-mpl"></div><div class="kpi-sub" id="k-mpl-sub"></div></div>
+  </div>
+
+  <div class="cf-card">
+    <div class="cf-title">💸 이번 달 돈 흐름 — <span id="cfMonth" style="color:var(--t2);text-transform:none;letter-spacing:0;font-weight:400"></span></div>
+    <div class="cf-row">
+      <div class="cf-item"><div class="cf-ico">💰</div><div class="cf-lbl">추가 입금</div><div class="cf-val" id="cf-io"></div></div>
+      <div class="cf-item"><div class="cf-ico">📊</div><div class="cf-lbl">투자 수익</div><div class="cf-val" id="cf-pl"></div></div>
+      <div class="cf-item"><div class="cf-ico">💵</div><div class="cf-lbl">이번 달 배당</div><div class="cf-val" id="cf-div"></div></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">🏆 기록실</div><div class="card-sub">역대 최고 & 최악 기록</div>
+      <div class="rec-list">
+        <div class="rec-item"><div class="rec-ico">🔥</div><div><div class="rec-lbl">베스트 월</div><div class="rec-val p" id="rb-val"></div><div class="rec-date" id="rb-date"></div></div></div>
+        <div class="rec-item"><div class="rec-ico">💀</div><div><div class="rec-lbl">워스트 월</div><div class="rec-val n" id="rw-val"></div><div class="rec-date" id="rw-date"></div></div></div>
+        <div class="rec-item"><div class="rec-ico" id="rstrk-ico"></div><div><div class="rec-lbl">연속 기록</div><div class="rec-val" id="rstrk-val"></div><div class="rec-date" id="rstrk-sub"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📍 현재 위치</div><div class="card-sub">ATH(역대 최고) 대비 & 순위</div>
+      <div class="ath-grid">
+        <div class="ath-card"><div class="ath-lbl">역대 자산 순위</div><div class="ath-val" id="ath-rank"></div><div class="ath-sub" id="ath-rank-s"></div></div>
+        <div class="ath-card"><div class="ath-lbl">역대 최고 대비</div><div class="ath-val" id="ath-diff"></div><div class="ath-sub" id="ath-diff-s"></div></div>
+        <div class="ath-card"><div class="ath-lbl">역대 최고 자산</div><div class="ath-val" id="ath-peak"></div><div class="ath-sub" id="ath-peak-s"></div></div>
+        <div class="ath-card"><div class="ath-lbl">목표까지 예상</div><div class="ath-val" id="ath-eta"></div><div class="ath-sub" id="ath-eta-s"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 목표 달성 현황</div><div class="card-sub">CAGR 기준 달성 예측 포함</div>
+    <div class="goal-list" id="goalList"></div>
+  </div>
+
+  <!-- 연도별 성과 -->
+  <div class="card" style="margin-top:14px">
+    <div class="card-title">📅 연도별 성과</div>
+    <div class="card-sub">연도별 수익금 및 수익률 비교</div>
+    <div id="yearStatCards" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div>
+        <div style="font-size:11px;color:var(--t3);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">연도별 수익금</div>
+        <div class="chart-wrap ch180"><canvas id="yearPLChart"></canvas></div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">연도별 수익률</div>
+        <div class="chart-wrap ch180"><canvas id="yearRetChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ TAB: 분석 ══ -->
+<div class="panel" id="tab-analysis">
+  <div class="op-grid">
+    <div class="op-card op-mine"><div class="op-lbl">내 포트폴리오</div><div class="op-val" id="op-mine"></div><div class="op-diff" id="op-mine-d"></div><div class="op-hypo" id="op-mine-h"></div></div>
+    <div class="op-card op-kos"><div class="op-lbl">코스피 (동기간)</div><div class="op-val" id="op-kos"></div><div class="op-diff" id="op-kos-d"></div><div class="op-hypo" id="op-kos-h"></div></div>
+    <div class="op-card op-sp"><div class="op-lbl">S&amp;P500 (동기간)</div><div class="op-val" id="op-sp"></div><div class="op-diff" id="op-sp-d"></div><div class="op-hypo" id="op-sp-h"></div></div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+      <div><div class="card-title">수익률 추이</div><div class="card-sub" style="margin-bottom:0">내 포트폴리오 vs 시장 지수 비교</div></div>
+      <div id="retYearTabs" style="display:flex;gap:3px;background:rgba(255,255,255,0.04);padding:3px;border-radius:10px;flex-wrap:wrap;"></div>
+    </div>
+    <div class="chart-wrap ch260"><canvas id="retChart"></canvas></div>
+    <div class="legend"><div class="leg"><div class="leg-dot" style="background:#facc15"></div>내 포트폴리오</div><div class="leg"><div class="leg-dot" style="background:#f59e0b"></div>코스피</div><div class="leg"><div class="leg-dot" style="background:#10b981"></div>S&P500</div></div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title">월별 손익 막대그래프</div><div class="card-sub">실제 수익금(원) 기준 · 수익 월(초록) / 손실 월(빨강)</div>
+    <div class="chart-wrap ch200" style="margin-top:14px"><canvas id="barChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">자산 vs 총 입금 비교</div><div class="card-sub">"내가 벌었나? 넣은 건가?" 한눈에</div>
+    <div class="chart-wrap ch260" style="margin-top:14px"><canvas id="flowChart"></canvas></div>
+    <div class="legend"><div class="leg"><div class="leg-dot" style="background:rgba(96,165,250,0.6)"></div>총 입금 누적</div><div class="leg"><div class="leg-dot" style="background:#10b981"></div>총 자산</div></div>
+  </div>
+</div>
+
+<!-- ══ TAB: 포트폴리오 ══ -->
+<div class="panel" id="tab-portfolio">
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">보유 종목</div><div class="card-sub">비중 · 금액 · 수익률</div>
+      <div class="h-hdr"><span>종목</span><span></span><span style="text-align:right">비중</span><span style="text-align:right">금액</span><span style="text-align:right">수익률</span></div>
+      <div class="h-list" id="holdList"></div>
+      <p style="font-size:10px;color:var(--t3);margin-top:12px">※ 수익률은 데이터 입력 시 주식앱 수익률 그대로 입력</p>
+    </div>
+    <div class="card">
+      <div class="card-title">보유 비중</div><div class="card-sub">종목별 자산 배분</div>
+      <div class="chart-wrap" style="height:240px"><canvas id="donutChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- 기여도 -->
+  <div class="card" style="margin-top:0">
+    <div class="card-title">📊 수익률 기여도 분석</div>
+    <div class="card-sub">종목 비중 × 수익률 = 포트폴리오 기여도 · 어떤 종목이 수익을 이끌었나?</div>
+    <div id="contribArea">
+      <div class="contrib-empty" id="contribEmpty">
+        ※ 종목별 수익률을 입력하면 기여도가 자동 계산돼요.<br>
+        <strong>데이터 입력 → 보유 종목 → 수익률(%) 항목</strong>에 주식 앱에서 보이는 수익률을 입력해 주세요.
+      </div>
+    </div>
+    <div class="chart-wrap ch220" id="contribChartWrap" style="display:none;margin-top:14px"><canvas id="contribChart"></canvas></div>
+    <div class="contrib-summary" id="contribSummary" style="display:none"></div>
+  </div>
+</div>
+
+<!-- ══ TAB: 배당 ══ -->
+<div class="panel" id="tab-dividend">
+  <div class="div-summary">
+    <div class="div-stat"><div class="div-stat-ico">💵</div><div class="div-stat-lbl">총 수령 배당금</div><div class="div-stat-val" id="div-total" style="color:var(--green)"></div></div>
+    <div class="div-stat"><div class="div-stat-ico">📅</div><div class="div-stat-lbl">이번 달 배당</div><div class="div-stat-val" id="div-this"></div></div>
+    <div class="div-stat"><div class="div-stat-ico">📈</div><div class="div-stat-lbl">배당 수익률 (연환산)</div><div class="div-stat-val" id="div-yield" style="color:var(--amber)"></div></div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title">월별 배당금 추이</div><div class="card-sub">수령한 배당금 변화</div>
+    <div class="chart-wrap ch200" style="margin-top:14px"><canvas id="divChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">배당 내역</div><div class="card-sub">월별 수령 배당금 기록</div>
+    <div class="div-hist" id="divHist"></div>
+    <p style="font-size:11px;color:var(--t3);margin-top:12px">※ 배당금은 데이터 입력 시 "이번 달 배당금" 항목에 입력</p>
+  </div>
+</div>
+
+<!-- ══ TAB: 내역 ══ -->
+<div class="panel" id="tab-history">
+
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">월별 상세 내역</div><div class="card-sub">전체 투자 기간 데이터</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>날짜</th><th>기말자산</th><th>입출금</th><th>배당금</th><th>당월손익</th><th>누적손익</th><th>월별수익률</th><th>누적수익률</th><th>코스피(지수)</th><th>코스피수익률</th><th>S&P500(지수)</th><th>S&P500수익률</th></tr></thead>
+        <tbody id="histTbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">자산 추이</div><div class="card-sub">월별 자산 변동</div>
+    <div class="chart-wrap ch260" style="margin-top:14px"><canvas id="assetChart"></canvas></div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="ovClick(event)">
+<div class="modal">
+  <div class="m-hdr">
+    <div><div class="m-title">월 데이터 입력</div><div class="m-sub">새로운 달의 수익 내역을 입력하세요</div></div>
+    <button class="m-close" onclick="closeModal()">✕</button>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-sec-title">📅 기본 정보</div>
+    <div class="fg">
+      <div class="fg-grp"><label class="flbl">날짜</label><input class="finp" id="i-date" placeholder="26년 03월"/></div>
+      <div class="fg-grp"><label class="flbl">기말자산 (원)</label><input class="finp" id="i-asset" type="number" placeholder="340000000" oninput="calcPrev()"/><span class="fhint">월말 총 평가자산</span></div>
+      <div class="fg-grp"><label class="flbl">이번 달 입출금 (원)</label><input class="finp" id="i-inout" type="number" placeholder="0" oninput="calcPrev()"/><span class="fhint">추가 입금(+) / 출금(-)</span></div>
+      <div class="fg-grp"><label class="flbl">💵 이번 달 배당금 (원)</label><input class="finp" id="i-div" type="number" placeholder="0"/><span class="fhint">이번 달 수령한 배당금 합계</span></div>
+      <div class="fg-grp"><label class="flbl">코스피 지수값</label><input class="finp" id="i-kospi" type="number" placeholder="6244" step="0.01"/><span class="fhint">네이버 금융에서 현재 코스피 지수 입력</span></div>
+      <div class="fg-grp"><label class="flbl">S&amp;P500 지수값</label><input class="finp" id="i-sp500" type="number" placeholder="5800" step="0.01"/><span class="fhint">네이버 금융 / 구글에서 현재 S&P500 입력</span></div>
+    </div>
+    <div class="calc-box" id="calcBox" style="display:none">
+      <div class="calc-ttl">🔢 자동 계산 미리보기</div>
+      <div class="calc-row"><span class="calc-lbl">전월 기말자산</span><span class="calc-val" id="cp-prev"></span></div>
+      <div class="calc-row"><span class="calc-lbl">당월 손익</span><span class="calc-val" id="cp-mpl"></span></div>
+      <div class="calc-row"><span class="calc-lbl">월별 수익률</span><span class="calc-val" id="cp-mret"></span></div>
+      <hr class="calc-div">
+      <div class="calc-row"><span class="calc-lbl">누적 손익</span><span class="calc-val" id="cp-cpl"></span></div>
+      <div class="calc-row"><span class="calc-lbl">누적 수익률</span><span class="calc-val" id="cp-cret"></span></div>
+      <div class="calc-row"><span class="calc-lbl">총 입금 누적</span><span class="calc-val" id="cp-tin"></span></div>
+    </div>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-sec-title">📊 보유 종목 (선택)</div>
+    <div class="hi-hdr-row"><span>종목</span><span>비중(%)</span><span>금액(원)</span><span>수익률(%)</span></div>
+    <div id="hiRows"></div>
+    <p style="font-size:10px;color:var(--t3);margin-top:6px">※ 금액(원) 입력하면 → 기말자산 합계 & 비중(%) 자동 계산 <span style="color:var(--green)">●</span> · 수익률은 주식앱 값 그대로 입력</p>
+  </div>
+
+  <!-- 데이터 관리 -->
+  <div style="border-top:1px solid var(--border);margin-top:20px;padding-top:16px;">
+    <div style="font-size:10px;font-weight:800;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">💾 데이터 관리</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <button onclick="exportJSON()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(5,150,105,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.3);padding:11px 8px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s;" onmouseover="this.style.background='rgba(5,150,105,0.22)'" onmouseout="this.style.background='rgba(5,150,105,0.12)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        데이터 백업
+      </button>
+      <button onclick="document.getElementById('importFile').click()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(124,58,237,0.12);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);padding:11px 8px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s;" onmouseover="this.style.background='rgba(124,58,237,0.22)'" onmouseout="this.style.background='rgba(124,58,237,0.12)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        데이터 복원
+      </button>
+      <button onclick="resetAllData()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.3);padding:11px 8px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s;" onmouseover="this.style.background='rgba(239,68,68,0.22)'" onmouseout="this.style.background='rgba(239,68,68,0.12)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.29"/></svg>
+        전체 초기화
+      </button>
+    </div>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)"/>
+    <p style="font-size:10px;color:var(--t3);margin-top:8px;text-align:center">⚠️ 초기화 시 브라우저 저장 데이터가 삭제돼요 · Netlify 새 파일 업로드 후 사용 권장</p>
+  </div>
+
+  <div class="m-btns">
+    <button class="btn-cancel" onclick="closeModal()">취소</button>
+    <button class="btn-save" onclick="saveData()">저장 및 업데이트</button>
+  </div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ───
+const INIT_M=[
+  {date:'25년 4월', asset:162088117,inout:162088117,monthPL:0,        cumPL:0,        monthRet:0,        cumRet:0,        kospiIdx:2559.79,sp500Idx:5569.06,kosPiRet:0,        sp500Ret:0,        div:0},
+  {date:'25년 5월', asset:161710669,inout:1890000,  monthPL:-2267448, cumPL:-2267448, monthRet:-0.013828,cumRet:-0.013828,kospiIdx:2697.67,sp500Idx:5911.69,kosPiRet:0.053864, sp500Ret:0.061524, div:0},
+  {date:'25년 6월', asset:168832691,inout:2300000,  monthPL:4822022,  cumPL:2554574,  monthRet:0.029401, cumRet:0.015166, kospiIdx:3071.70,sp500Idx:6204.95,kosPiRet:0.199981, sp500Ret:0.114183, div:0},
+  {date:'25년 7월', asset:182057164,inout:2830000,  monthPL:10394473, cumPL:12949047, monthRet:0.060552, cumRet:0.076636, kospiIdx:3245.44,sp500Idx:6339.39,kosPiRet:0.267854, sp500Ret:0.138323, div:0},
+  {date:'25년 8월', asset:188395776,inout:3990000,  monthPL:2348612,  cumPL:15297659, monthRet:0.012624, cumRet:0.090228, kospiIdx:3186.01,sp500Idx:6460.26,kosPiRet:0.244637, sp500Ret:0.160027, div:0},
+  {date:'25년 9월', asset:200670995,inout:3780000,  monthPL:8495219,  cumPL:23792878, monthRet:0.044205, cumRet:0.138422, kospiIdx:3424.60,sp500Idx:6688.46,kosPiRet:0.337844, sp500Ret:0.201003, div:0},
+  {date:'25년 10월',asset:214928624,inout:3110000,  monthPL:11147629, cumPL:34940507, monthRet:0.054704, cumRet:0.200698, kospiIdx:4107.50,sp500Idx:6840.20,kosPiRet:0.604624, sp500Ret:0.228250, div:0},
+  {date:'25년 11월',asset:267923330,inout:48360408, monthPL:4634298,  cumPL:39574805, monthRet:0.017602, cumRet:0.221832, kospiIdx:3926.59,sp500Idx:6849.09,kosPiRet:0.533950, sp500Ret:0.229847, div:0},
+  {date:'25년 12월',asset:266499639,inout:4720000,  monthPL:-6143691, cumPL:33431114, monthRet:-0.022534,cumRet:0.194299, kospiIdx:4214.17,sp500Idx:6845.50,kosPiRet:0.646295, sp500Ret:0.229202, div:0},
+  {date:'26년 01월',asset:304811995,inout:34830296, monthPL:3482060,  cumPL:36913174, monthRet:0.011556, cumRet:0.208100, kospiIdx:5224.36,sp500Idx:6939.03,kosPiRet:1.040933, sp500Ret:0.245997, div:0},
+  {date:'26년 02월',asset:326776776,inout:26829000, monthPL:-4864219, cumPL:32048955, monthRet:-0.014667,cumRet:0.190381, kospiIdx:6244.13,sp500Idx:6908.86,kosPiRet:1.439313, sp500Ret:0.240579, div:0},
+  {date:'26년 03월',asset:335269938,inout:9906997,  monthPL:-1413835, cumPL:30635120, monthRet:-0.004199,cumRet:0.185382, kospiIdx:5052.46,sp500Idx:6343.72,kosPiRet:0.973779, sp500Ret:0.139101, div:0},
+]];
+const INIT_H=[
+  {ticker:'QQQM',pct:0.3938,amt:128697128,color:'#3b82f6',ret:null},
+  {ticker:'SCHD',pct:0.1914,amt:62557836,color:'#10b981',ret:null},
+  {ticker:'TLT', pct:0.1234,amt:40311640,color:'#8b5cf6',ret:null},
+  {ticker:'BTC', pct:0.1491,amt:48722343,color:'#f59e0b',ret:null},
+  {ticker:'IAU', pct:0.0910,amt:29729233,color:'#f97316',ret:null},
+  {ticker:'ETH', pct:0.0103,amt:3366920, color:'#06b6d4',ret:null},
+  {ticker:'MCHI',pct:0.0410,amt:13391676,color:'#ec4899',ret:null},
+];
+const GOALS=[
+  {label:'1차 목표',target:300000000,color:'#10b981'},
+  {label:'2차 목표',target:400000000,color:'#3b82f6'},
+  {label:'3차 목표',target:500000000,color:'#8b5cf6'},
+  {label:'최종 목표',target:1000000000,color:'#f59e0b'},
+];
+const TIERS=[
+  {max:5,  icon:'🥉',name:'초보 투자자',   desc:'꾸준히 가면 됩니다'},
+  {max:15, icon:'🥈',name:'안정형 투자자', desc:'시장 평균을 따라가는 중'},
+  {max:30, icon:'🥇',name:'고수 투자자',   desc:'탁월한 수익률 달성 중!'},
+  {max:1e9,icon:'👑',name:'시장 초과 달성자',desc:'시장을 이기는 투자자!'},
+];
+
+// ─── STATE ───
+// 버전 바뀌면 캐시 자동 초기화 (새 HTML 배포 시 버전 올리기)
+const DATA_VERSION='2026-03-31';
+function load(){
+  try{
+    const ver=localStorage.getItem('pf_ver');
+    // 버전 다르면 캐시 무시 → INIT_M 사용
+    if(ver!==DATA_VERSION){
+      localStorage.removeItem('pf_m');
+      localStorage.removeItem('pf_h');
+      localStorage.setItem('pf_ver',DATA_VERSION);
+      return{monthly:INIT_M,holdings:INIT_H};
+    }
+    const m=localStorage.getItem('pf_m'),h=localStorage.getItem('pf_h');
+    return{monthly:m?JSON.parse(m):INIT_M,holdings:h?JSON.parse(h):INIT_H};
+  }catch(e){return{monthly:INIT_M,holdings:INIT_H};}
+}
+function persist(){
+  localStorage.setItem('pf_m',JSON.stringify(S.monthly));
+  localStorage.setItem('pf_h',JSON.stringify(S.holdings));
+  localStorage.setItem('pf_ver',DATA_VERSION);
+}
+let S=load();
+
+// ─── HELPERS ───
+const fmt=n=>{const s=n<0?'-':'',a=Math.abs(n);if(a>=1e8)return s+(a/1e8).toFixed(2)+'억';if(a>=1e4)return s+Math.round(a/1e4).toLocaleString()+'만';return n.toLocaleString();};
+const fmtW=n=>(n<0?'-':'')+'₩'+Math.abs(n).toLocaleString();
+const fmtP=n=>(n>=0?'+':'')+(n*100).toFixed(2)+'%';
+const cls=n=>n>0?'p':n<0?'n':'u';
+
+// ─── CHARTS ───
+const CI={ret:null,bar:null,flow:null,donut:null,asset:null,contrib:null,div:null,yearPL:null,yearRet:null};
+function killChart(k){if(CI[k]){CI[k].destroy();CI[k]=null;}}
+const COPTS={responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+  plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a2235',borderColor:'rgba(255,255,255,0.08)',borderWidth:1,titleColor:'#94a3b8',bodyColor:'#f1f5f9',padding:12}},
+  scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#64748b',font:{size:11}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#64748b',font:{size:11}}}}};
+
+// ─── TABS ───
+function showTab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tab-'+name).classList.add('on');
+  btn.classList.add('on');
+  if(name==='analysis'){renderRetChart();renderBarChart();renderFlowChart();}
+  if(name==='portfolio'){renderDonut();renderContrib();}
+  if(name==='dividend'){renderDivTab();}
+  if(name==='history'){renderAssetChart();}
+}
+
+// ─── RENDER ALL ───
+function renderAll(){
+  const{monthly,holdings}=S;
+  const last=monthly[monthly.length-1];
+  const totalIn=monthly.reduce((s,d)=>s+d.inout,0);
+  const months=monthly.length-1;
+  const years=months/12;
+  const cagr=years>0&&totalIn>0?Math.pow(last.asset/totalIn,1/years)-1:0;
+  const traded=monthly.slice(1);
+  const best=traded.reduce((a,b)=>b.monthRet>a.monthRet?b:a,traded[0]);
+  const worst=traded.reduce((a,b)=>b.monthRet<a.monthRet?b:a,traded[0]);
+  let streak=0,sType='';
+  for(let i=traded.length-1;i>=0;i--){const r=traded[i].monthRet;if(streak===0){streak=1;sType=r>=0?'up':'dn';}else if(sType==='up'&&r>=0)streak++;else if(sType==='dn'&&r<0)streak++;else break;}
+  const assets=monthly.map(d=>d.asset);
+  const ath=Math.max(...assets),athIdx=assets.indexOf(ath),athDate=monthly[athIdx].date;
+  const rank=[...assets].sort((a,b)=>b-a).indexOf(last.asset)+1;
+  const athDiff=(last.asset-ath)/ath;
+  const hypoK=totalIn*(1+last.kosPiRet),hypoSP=totalIn*(1+last.sp500Ret);
+  const rec3=traded.slice(-3);
+  const avg3=rec3.length?rec3.reduce((s,d)=>s+d.monthRet,0)/rec3.length:0;
+  let mental;
+  if(avg3>0.03)mental={i:'🚀',t:'최근 상승 흐름 유지 중',s:'최근 3개월 평균 '+fmtP(avg3)};
+  else if(avg3>0.005)mental={i:'📈',t:'완만한 상승 흐름',s:'최근 3개월 평균 '+fmtP(avg3)};
+  else if(avg3>=-0.005)mental={i:'😐',t:'횡보 구간',s:'최근 3개월 평균 '+fmtP(avg3)};
+  else if(avg3>=-0.02)mental={i:'⚠️',t:'변동성 확대 구간',s:'최근 3개월 평균 '+fmtP(avg3)};
+  else mental={i:'🔻',t:'하락 압력 구간',s:'최근 3개월 평균 '+fmtP(avg3)};
+  const nextGoal=GOALS.find(g=>last.asset<g.target);
+  let etaTxt='',etaSub='';
+  if(!nextGoal){etaTxt='🏆 모든 목표 달성';etaSub='';}
+  else if(cagr>0){const mo=Math.round(Math.log(nextGoal.target/last.asset)/Math.log(1+cagr)*12);etaTxt=mo+'개월 후';etaSub=nextGoal.label+' ('+fmt(nextGoal.target)+') 예측';}
+  else{etaTxt='계산 중';etaSub='데이터 누적 필요';}
+
+  // Header
+  document.getElementById('updLabel').textContent=last.date;
+
+  // Tier
+  const cumPct=last.cumRet*100;
+  let tier=TIERS[TIERS.length-1],prevMax=0;
+  for(const t of TIERS){if(cumPct<t.max){tier=t;break;}prevMax=t.max;}
+  const nextMax=tier.max>=1e8?prevMax*2:tier.max;
+  const barPct=Math.min((cumPct-prevMax)/(nextMax-prevMax)*100,100);
+  document.getElementById('tierEmoji').textContent=tier.icon;
+  document.getElementById('tierName').textContent=tier.name;
+  document.getElementById('tierDesc').textContent=tier.desc;
+  document.getElementById('tpL').textContent=prevMax+'%';
+  document.getElementById('tpR').textContent=tier.max>=1e8?'∞':tier.max+'%';
+  setTimeout(()=>document.getElementById('tpFill').style.width=barPct+'%',200);
+  document.getElementById('tsCagr').textContent=(cagr>=0?'+':'')+(cagr*100).toFixed(1)+'%';
+  document.getElementById('tsCagr').style.color=cagr>=0?'#10b981':'#ef4444';
+  document.getElementById('tsCagrLbl').textContent=months<12?'CAGR (연환산)':'CAGR';
+  document.getElementById('tsPeriod').textContent=months+'개월';
+
+  // Status
+  document.getElementById('sbIcon').textContent=mental.i;
+  document.getElementById('sbText').textContent=mental.t;
+  document.getElementById('sbSub').textContent=mental.s;
+
+  // KPIs
+  document.getElementById('k-asset').textContent=fmtW(last.asset);
+  const gain=last.asset-totalIn;
+  document.getElementById('k-asset-sub').innerHTML=`<span class="tag ${cls(gain)}">${gain>=0?'+':'-'}${fmt(Math.abs(gain))}</span><span>총 입금 대비</span>`;
+  document.getElementById('k-cumpl').textContent=(last.cumPL>=0?'+':'')+fmtW(last.cumPL);
+  document.getElementById('k-cumpl').style.color=last.cumPL>=0?'#34d399':'#f87171';
+  document.getElementById('k-cumpl-sub').innerHTML=`<span class="tag ${cls(last.cumRet)}">${fmtP(last.cumRet)}</span><span>누적 수익률</span>`;
+  document.getElementById('k-inout').textContent=fmtW(totalIn);
+  document.getElementById('k-period').innerHTML=`<span style="color:var(--t2)">${monthly[0].date} ~ ${last.date}</span>`;
+  document.getElementById('k-mpl').textContent=(last.monthPL>=0?'+':'')+fmtW(last.monthPL);
+  document.getElementById('k-mpl').style.color=last.monthPL>=0?'#34d399':'#f87171';
+  document.getElementById('k-mpl-sub').innerHTML=`<span class="tag ${cls(last.monthRet)}">${fmtP(last.monthRet)}</span><span>${last.date}</span>`;
+
+  // Cashflow (this month) — 배당 포함
+  const thisDiv=last.div||0;
+  const prevAsset=monthly.length>1?monthly[monthly.length-2].asset:0;
+  document.getElementById('cfMonth').textContent=last.date+' 기준';
+  document.getElementById('cf-io').textContent=fmtW(last.inout);
+  document.getElementById('cf-io').style.color='#60a5fa';
+  document.getElementById('cf-pl').textContent=(last.monthPL>=0?'+':'')+fmtW(last.monthPL);
+  document.getElementById('cf-pl').style.color=last.monthPL>=0?'#34d399':'#f87171';
+  document.getElementById('cf-div').textContent=thisDiv>0?'+'+fmtW(thisDiv):'없음';
+  document.getElementById('cf-div').style.color=thisDiv>0?'#34d399':'var(--t3)';
+
+  // Records
+  document.getElementById('rb-val').textContent=fmtP(best.monthRet);
+  document.getElementById('rb-date').textContent=best.date+'  ('+fmt(best.monthPL)+')';
+  document.getElementById('rw-val').textContent=fmtP(worst.monthRet);
+  document.getElementById('rw-date').textContent=worst.date+'  ('+fmt(worst.monthPL)+')';
+  document.getElementById('rstrk-ico').textContent=sType==='up'?'📈':'📉';
+  document.getElementById('rstrk-val').textContent=streak+'개월 연속 '+(sType==='up'?'상승':'하락');
+  document.getElementById('rstrk-val').style.color=sType==='up'?'#10b981':'#ef4444';
+  document.getElementById('rstrk-sub').textContent='직전 '+streak+'달 기준';
+
+  // ATH
+  document.getElementById('ath-rank').textContent=rank===1?'🏆 역대 1위':'역대 '+rank+'위';
+  document.getElementById('ath-rank').style.color=rank<=2?'#f59e0b':'var(--text)';
+  document.getElementById('ath-rank-s').textContent=monthly.length+'개월 중';
+  document.getElementById('ath-diff').textContent=athDiff===0?'🔝 신고점!':fmtP(athDiff);
+  document.getElementById('ath-diff').style.color=athDiff===0?'#f59e0b':athDiff<0?'#ef4444':'#10b981';
+  document.getElementById('ath-diff-s').textContent=athDiff===0?'역대 최고 갱신!':'역대 최고 대비 하락';
+  document.getElementById('ath-peak').textContent=fmtW(ath);
+  document.getElementById('ath-peak-s').textContent=athDate;
+  document.getElementById('ath-eta').textContent=etaTxt;
+  document.getElementById('ath-eta-s').textContent=etaSub;
+
+  // Goals
+  const gl=document.getElementById('goalList');gl.innerHTML='';
+  GOALS.forEach(g=>{
+    const pct=Math.min(last.asset/g.target*100,100),done=pct>=100;
+    let etaStr='';
+    if(!done&&cagr>0){const mo=Math.round(Math.log(g.target/last.asset)/Math.log(1+cagr)*12);etaStr=' · 약 '+mo+'개월 후';}
+    const el=document.createElement('div');el.className='goal-item';
+    el.innerHTML=`<div class="goal-hdr"><div class="goal-lbl">${done?'✅ ':''}${g.label} <span style="font-size:11px;color:var(--t3)">(${fmt(g.target)})</span></div><div class="goal-pct" style="color:${done?g.color:'var(--text)'}">${pct.toFixed(1)}%</div></div>
+    <div class="goal-track"><div class="goal-fill" style="width:0%;background:${g.color}" data-w="${pct}"></div></div>
+    <div class="goal-meta"><span>${fmtW(last.asset)} / ${fmtW(g.target)}</span><span style="color:${done?g.color:'var(--t3)'}">${done?'🎉 달성!':'남은: '+fmtW(g.target-last.asset)+etaStr}</span></div>`;
+    gl.appendChild(el);
+  });
+
+  // Outperform
+  const myR=last.cumRet*100,kosR=last.kosPiRet*100,spR=last.sp500Ret*100,kd=myR-kosR,sd=myR-spR;
+  document.getElementById('op-mine').textContent=fmtP(last.cumRet);
+  document.getElementById('op-mine').style.color=last.cumRet>=0?'#60a5fa':'#f87171';
+  document.getElementById('op-mine-d').textContent='실제 수익률';document.getElementById('op-mine-d').style.color='var(--t2)';
+  document.getElementById('op-mine-h').textContent='실제 자산: '+fmtW(last.asset);
+  document.getElementById('op-kos').textContent=fmtP(last.kosPiRet);
+  document.getElementById('op-kos').style.color=last.kosPiRet>=0?'#fbbf24':'#f87171';
+  document.getElementById('op-kos-d').innerHTML=kd>=0?`<span style="color:#10b981">내가 +${kd.toFixed(2)}%p 아웃퍼폼 ✅</span>`:`<span style="color:#ef4444">코스피가 ${Math.abs(kd).toFixed(2)}%p 앞섬</span>`;
+  document.getElementById('op-kos-h').textContent='코스피만 투자 시: '+fmtW(Math.round(hypoK));
+  document.getElementById('op-sp').textContent=fmtP(last.sp500Ret);
+  document.getElementById('op-sp').style.color=last.sp500Ret>=0?'#34d399':'#f87171';
+  document.getElementById('op-sp-d').innerHTML=sd>=0?`<span style="color:#10b981">내가 +${sd.toFixed(2)}%p 아웃퍼폼 ✅</span>`:`<span style="color:#ef4444">S&P500이 ${Math.abs(sd).toFixed(2)}%p 앞섬</span>`;
+  document.getElementById('op-sp-h').textContent='S&P500만 투자 시: '+fmtW(Math.round(hypoSP));
+
+  // Holdings
+  const hl=document.getElementById('holdList');hl.innerHTML='';
+  holdings.forEach(h=>{
+    const rc=h.ret===null?'var(--t3)':h.ret>=0?'#10b981':'#ef4444';
+    const el=document.createElement('div');el.className='h-item';
+    el.innerHTML=`<div class="h-ticker" style="color:${h.color}">${h.ticker}</div>
+      <div class="h-bar-wrap"><div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:${h.color}" data-w="${h.pct*100}"></div></div></div>
+      <div class="h-pct">${(h.pct*100).toFixed(1)}%</div>
+      <div class="h-amt">${fmt(h.amt)}</div>
+      <div class="h-ret" style="color:${rc};text-align:right;font-family:'DM Mono',monospace;font-size:12px;font-weight:700">${h.ret===null?'--':(h.ret>=0?'+':'')+h.ret.toFixed(1)+'%'}</div>`;
+    hl.appendChild(el);
+  });
+
+  // Table
+  const tb=document.getElementById('histTbody');tb.innerHTML='';
+  monthly.forEach((d,i)=>{
+    const tr=document.createElement('tr');
+    if(i===monthly.length-1)tr.classList.add('latest');
+    tr.innerHTML=`<td>${d.date}</td><td>${fmt(d.asset)}</td><td>${fmt(d.inout)}</td>
+      <td class="${(d.div||0)>0?'p':''}">${(d.div||0)>0?'+'+fmtW(d.div):'-'}</td>
+      <td class="${cls(d.monthPL)}">${d.monthPL===0?'-':(d.monthPL>0?'+':'')+fmt(d.monthPL)}</td>
+      <td class="${cls(d.cumPL)}">${(d.cumPL>=0?'+':'')+fmt(d.cumPL)}</td>
+      <td class="${cls(d.monthRet)}">${fmtP(d.monthRet)}</td>
+      <td class="${cls(d.cumRet)}">${fmtP(d.cumRet)}</td>
+      <td>${d.kospiIdx?d.kospiIdx.toFixed(2):'-'}</td>
+      <td class="${cls(d.kosPiRet)}">${fmtP(d.kosPiRet)}</td>
+      <td>${d.sp500Idx?d.sp500Idx.toFixed(2):'-'}</td>
+      <td class="${cls(d.sp500Ret)}">${fmtP(d.sp500Ret)}</td>
+      <td style="text-align:center">
+        <button onclick="editRow(${i})" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;margin-right:4px;font-family:'Noto Sans KR',sans-serif">수정</button>
+        <button onclick="deleteRow(${i})" style="background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.25);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif">삭제</button>
+      </td>`;
+    tb.appendChild(tr);
+  });
+
+  setTimeout(()=>document.querySelectorAll('[data-w]').forEach(el=>el.style.width=el.dataset.w+'%'),250);
+  renderYearCharts(monthly);
+
+}
+
+// ─── CHARTS ───
+let retYearFilter='전체';
+
+function buildRetYearTabs(){
+  const tabsEl=document.getElementById('retYearTabs');
+  if(!tabsEl)return;
+  // 연도 목록 추출
+  const yrs=['전체',...new Set(S.monthly.map(d=>{const m=d.date.match(/(\d+)년/);return m?'20'+m[1]+'년':null}).filter(Boolean))];
+  tabsEl.innerHTML='';
+  yrs.forEach(yr=>{
+    const btn=document.createElement('button');
+    btn.textContent=yr;
+    btn.style.cssText='padding:5px 12px;border-radius:7px;font-size:12px;cursor:pointer;font-weight:700;border:none;font-family:"Noto Sans KR",sans-serif;transition:all .15s;';
+    btn.style.background=retYearFilter===yr?'var(--accent, #3b82f6)':'none';
+    btn.style.color=retYearFilter===yr?'#fff':'var(--t3)';
+    btn.onclick=()=>{retYearFilter=yr;buildRetYearTabs();renderRetChart();};
+    tabsEl.appendChild(btn);
+  });
+}
+
+function getRetFilteredData(){
+  if(retYearFilter==='전체')return S.monthly;
+  const yr=retYearFilter.replace('년','');
+  const filtered=S.monthly.filter(d=>d.date.startsWith(yr.slice(2)));
+  if(!filtered.length)return S.monthly;
+  // 해당 연도 첫 달의 직전 달을 기준점으로 추가 (수익률 0% 기준점)
+  const firstIdx=S.monthly.indexOf(filtered[0]);
+  const base=firstIdx>0?S.monthly[firstIdx-1]:null;
+  // 필터된 첫 달을 기준(0%)으로 상대 수익률 계산
+  const base2=filtered[0];
+  return filtered.map(d=>({
+    ...d,
+    _relRet:   (d.cumRet - base2.cumRet)/(1+base2.cumRet)*100,
+    _relKospi: base2.kospiIdx ? (d.kospiIdx - base2.kospiIdx)/base2.kospiIdx*100 : (d.kosPiRet - base2.kosPiRet)*100,
+    _relSP:    base2.sp500Idx ? (d.sp500Idx - base2.sp500Idx)/base2.sp500Idx*100 : (d.sp500Ret - base2.sp500Ret)*100,
+  }));
+}
+
+function renderRetChart(){
+  killChart('ret');
+  buildRetYearTabs();
+  const m=getRetFilteredData();
+  const isFiltered=retYearFilter!=='전체';
+  const ctx=document.getElementById('retChart').getContext('2d');
+  const opts=JSON.parse(JSON.stringify(COPTS));
+  opts.plugins.tooltip.callbacks={label:c=>` ${c.parsed.y.toFixed(2)}%`};
+  opts.scales.y.ticks={color:'#64748b',font:{size:11},callback:v=>v.toFixed(0)+'%'};
+  CI.ret=new Chart(ctx,{type:'line',data:{labels:m.map(d=>d.date),datasets:[
+    {label:'내 수익률',data:isFiltered?m.map(d=>d._relRet):m.map(d=>d.cumRet*100),borderColor:'#facc15',backgroundColor:isFiltered?'rgba(250,204,21,0)':'rgba(250,204,21,0.07)',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#facc15',tension:0.4,fill:!isFiltered},
+    {label:'코스피',data:isFiltered?m.map(d=>d._relKospi):m.map(d=>d.kosPiRet*100),borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0)',borderWidth:1.5,pointRadius:2,tension:0.4,borderDash:[4,4],fill:false},
+    {label:'S&P500',data:isFiltered?m.map(d=>d._relSP):m.map(d=>d.sp500Ret*100),borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0)',borderWidth:1.5,pointRadius:2,tension:0.4,borderDash:[4,4],fill:false},
+  ]},options:opts});
+}
+
+function renderBarChart(){
+  killChart('bar');
+  const traded=S.monthly.slice(1),ctx=document.getElementById('barChart').getContext('2d');
+  const opts=JSON.parse(JSON.stringify(COPTS));
+  opts.plugins.tooltip.callbacks={label:c=>{const v=c.parsed.y;return ` ${v>=0?'+':''}${fmtW(v)} (${fmtP(traded[c.dataIndex].monthRet)})`;}};
+  opts.scales.y.ticks={color:'#64748b',font:{size:11},callback:v=>{const a=Math.abs(v);if(a>=1e8)return (v<0?'-':'')+(a/1e8).toFixed(1)+'억';if(a>=1e4)return (v<0?'-':'')+Math.round(a/1e4)+'만';return v;}};
+  CI.bar=new Chart(ctx,{type:'bar',data:{labels:traded.map(d=>d.date),datasets:[{
+    label:'월별 손익',data:traded.map(d=>d.monthPL),
+    backgroundColor:traded.map(d=>d.monthPL>=0?'rgba(16,185,129,0.7)':'rgba(239,68,68,0.7)'),
+    borderColor:traded.map(d=>d.monthPL>=0?'#10b981':'#ef4444'),
+    borderWidth:1,borderRadius:4,
+  }]},options:opts});
+}
+
+function renderFlowChart(){
+  killChart('flow');
+  const m=S.monthly,ctx=document.getElementById('flowChart').getContext('2d');
+  let cum=0;const cumIns=m.map(d=>{cum+=d.inout;return cum/1e8;});
+  const opts=JSON.parse(JSON.stringify(COPTS));
+  opts.plugins.tooltip.callbacks={label:c=>` ${c.parsed.y.toFixed(2)}억원`};
+  opts.scales.y.ticks={color:'#64748b',font:{size:11},callback:v=>v.toFixed(1)+'억'};
+  CI.flow=new Chart(ctx,{type:'bar',data:{labels:m.map(d=>d.date),datasets:[
+    {label:'총 입금 누적',data:cumIns,type:'bar',backgroundColor:'rgba(96,165,250,0.2)',borderColor:'rgba(96,165,250,0.5)',borderWidth:1},
+    {label:'총 자산',data:m.map(d=>d.asset/1e8),type:'line',borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0)',borderWidth:2,pointRadius:3,tension:0.4,fill:false},
+  ]},options:opts});
+}
+
+function renderDonut(){
+  killChart('donut');
+  const h=S.holdings,ctx=document.getElementById('donutChart').getContext('2d');
+  CI.donut=new Chart(ctx,{type:'doughnut',data:{labels:h.map(x=>x.ticker),datasets:[{data:h.map(x=>(x.pct*100).toFixed(1)),backgroundColor:h.map(x=>x.color),borderColor:'#0d1117',borderWidth:2,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{
+      legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11,family:'DM Mono'},padding:12,boxWidth:10,usePointStyle:true}},
+      tooltip:{backgroundColor:'#1a2235',borderColor:'rgba(255,255,255,0.08)',borderWidth:1,titleColor:'#f1f5f9',bodyColor:'#94a3b8',callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}
+    }}});
+}
+
+function renderContrib(){
+  killChart('contrib');
+  const holdings=S.holdings;
+  const withRet=holdings.filter(h=>h.ret!==null);
+  const emptyEl=document.getElementById('contribEmpty');
+  const wrapEl=document.getElementById('contribChartWrap');
+  const summaryEl=document.getElementById('contribSummary');
+
+  if(withRet.length===0){
+    emptyEl.style.display='block';wrapEl.style.display='none';summaryEl.style.display='none';return;
+  }
+  emptyEl.style.display='none';wrapEl.style.display='block';summaryEl.style.display='block';
+
+  // 기여도 = 비중 × 수익률
+  const contribs=holdings.map(h=>({ticker:h.ticker,color:h.color,contrib:h.ret!==null?h.pct*h.ret:0,hasRet:h.ret!==null}));
+  const sorted=[...contribs].sort((a,b)=>b.contrib-a.contrib);
+  const totalContrib=contribs.reduce((s,c)=>s+c.contrib,0);
+
+  // Summary text
+  const topPos=sorted.filter(c=>c.contrib>0).slice(0,2).map(c=>`${c.ticker} (+${(c.contrib).toFixed(2)}%p)`).join(', ');
+  const topNeg=sorted.filter(c=>c.contrib<0).map(c=>`${c.ticker} (${(c.contrib).toFixed(2)}%p)`).join(', ');
+  let txt=`포트폴리오 총 기여도: ${totalContrib>=0?'+':''}${totalContrib.toFixed(2)}%p`;
+  if(topPos)txt+=`  |  🔥 기여 상위: ${topPos}`;
+  if(topNeg)txt+=`  |  📉 발목: ${topNeg}`;
+  summaryEl.textContent=txt;
+
+  const ctx=document.getElementById('contribChart').getContext('2d');
+  const opts=JSON.parse(JSON.stringify(COPTS));
+  opts.indexAxis='y';
+  opts.plugins.tooltip.callbacks={label:c=>` ${c.parsed.x>=0?'+':''}${c.parsed.x.toFixed(2)}%p 기여`};
+  opts.scales.x={grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#64748b',font:{size:11},callback:v=>v.toFixed(1)+'%'}};
+  opts.scales.y={grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#f1f5f9',font:{size:13,weight:'700'}}};
+  CI.contrib=new Chart(ctx,{type:'bar',data:{
+    labels:sorted.map(c=>c.ticker),
+    datasets:[{label:'기여도',data:sorted.map(c=>c.contrib),
+      backgroundColor:sorted.map(c=>c.contrib>=0?'rgba(16,185,129,0.7)':'rgba(239,68,68,0.7)'),
+      borderColor:sorted.map(c=>c.contrib>=0?'#10b981':'#ef4444'),
+      borderWidth:1,borderRadius:4}]
+  },options:opts});
+}
+
+function renderDivTab(){
+  killChart('div');
+  const monthly=S.monthly;
+  const totalDiv=monthly.reduce((s,d)=>s+(d.div||0),0);
+  const last=monthly[monthly.length-1];
+  const thisDiv=last.div||0;
+  const months=monthly.length;
+  // 연환산 배당수익률
+  const annualDiv=months>0?(totalDiv/months*12):0;
+  const divYield=last.asset>0?(annualDiv/last.asset*100):0;
+
+  document.getElementById('div-total').textContent=totalDiv>0?fmtW(totalDiv):'₩0';
+  document.getElementById('div-this').textContent=thisDiv>0?'+'+fmtW(thisDiv):'없음';
+  document.getElementById('div-this').style.color=thisDiv>0?'var(--green)':'var(--t3)';
+  document.getElementById('div-yield').textContent=divYield>0?'+'+divYield.toFixed(2)+'%':'--';
+
+  // History
+  const hist=document.getElementById('divHist');hist.innerHTML='';
+  const divMonths=monthly.filter(d=>(d.div||0)>0);
+  if(divMonths.length===0){
+    hist.innerHTML='<div class="div-empty">아직 입력된 배당 내역이 없어요 😊<br><span style="font-size:11px">데이터 입력 시 "이번 달 배당금" 항목을 채워주세요</span></div>';
+  } else {
+    [...divMonths].reverse().forEach(d=>{
+      const el=document.createElement('div');el.className='div-row';
+      el.innerHTML=`<div class="div-row-date">📅 ${d.date}</div><div class="div-row-amt">+${fmtW(d.div)}</div>`;
+      hist.appendChild(el);
+    });
+  }
+
+  // Chart
+  const ctx=document.getElementById('divChart').getContext('2d');
+  const opts=JSON.parse(JSON.stringify(COPTS));
+  opts.plugins.tooltip.callbacks={label:c=>c.parsed.y>0?` +${fmtW(c.parsed.y)}`:' 없음'};
+  opts.scales.y.ticks={color:'#64748b',font:{size:11},callback:v=>v>=10000?Math.round(v/10000)+'만':v};
+  CI.div=new Chart(ctx,{type:'bar',data:{
+    labels:monthly.map(d=>d.date),
+    datasets:[{label:'배당금',data:monthly.map(d=>d.div||0),
+      backgroundColor:'rgba(16,185,129,0.6)',borderColor:'#10b981',borderWidth:1,borderRadius:4}]
+  },options:opts});
+}
+
+function renderAssetChart(){
+  killChart('asset');
+  const m=S.monthly,ctx=document.getElementById('assetChart').getContext('2d');
+  const opts=JSON.parse(JSON.stringify(COPTS));
+  opts.plugins.tooltip.callbacks={label:c=>` ${c.parsed.y.toFixed(2)}억원`};
+  opts.scales.y.ticks={color:'#64748b',font:{size:11},callback:v=>v.toFixed(1)+'억'};
+  CI.asset=new Chart(ctx,{type:'line',data:{labels:m.map(d=>d.date),datasets:[{
+    label:'자산',data:m.map(d=>d.asset/1e8),borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.07)',
+    borderWidth:2,pointRadius:4,pointBackgroundColor:'#3b82f6',tension:0.4,fill:true
+  }]},options:opts});
+}
+
+// ─── MODAL ───
+function openModal(){
+  // editingIdx는 헤더 버튼 onclick에서 직접 설정
+  const last=S.monthly[S.monthly.length-1];
+  const m=last.date.match(/(\d+)년\s*(\d+)월/);
+  if(m){let y=parseInt(m[1]),mo=parseInt(m[2]);mo++;if(mo>12){mo=1;y++;}document.getElementById('i-date').value=`${y}년 ${String(mo).padStart(2,'0')}월`;}
+  ['i-asset','i-inout','i-div','i-kospi','i-sp500'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('calcBox').style.display='none';
+  const hr=document.getElementById('hiRows');hr.innerHTML='';
+  S.holdings.forEach((h,i)=>{
+    const r=document.createElement('div');r.className='hi-row';
+    r.innerHTML=`<div class="hi-lbl" style="color:${h.color}">${h.ticker}</div>
+      <input class="finp" id="hP${i}" type="number" placeholder="${(h.pct*100).toFixed(2)}" step="0.01" oninput="this.style.color='';autoSumAsset()"/>
+      <input class="finp" id="hA${i}" type="number" placeholder="${h.amt.toLocaleString()}" oninput="autoSumAsset()"/>
+      <input class="finp" id="hR${i}" type="number" placeholder="${h.ret!==null?h.ret:'수익률%'}" step="0.1"/>`;
+    hr.appendChild(r);
+  });
+  document.getElementById('overlay').classList.add('open');
+}
+function autoSumAsset(){
+  // 1. 합계 계산
+  let total=0, hasAny=false;
+  S.holdings.forEach((_,i)=>{
+    const v=parseFloat(document.getElementById(`hA${i}`)?.value);
+    if(!isNaN(v)){total+=v;hasAny=true;}
+  });
+  if(!hasAny)return;
+
+  // 2. 기말자산 자동 입력
+  document.getElementById('i-asset').value=total;
+
+  // 3. 비중 자동 계산
+  if(total>0){
+    S.holdings.forEach((_,i)=>{
+      const amtEl=document.getElementById(`hA${i}`);
+      const pctEl=document.getElementById(`hP${i}`);
+      if(!amtEl||!pctEl)return;
+      const amt=parseFloat(amtEl.value);
+      if(!isNaN(amt)){
+        pctEl.value=(amt/total*100).toFixed(2);
+        // 자동 계산된 비중은 연한 색으로 표시
+        pctEl.style.color='var(--green)';
+      }
+    });
+  }
+
+  calcPrev();
+}
+function closeModal(){
+  editingIdx=-1;
+  // 버튼 텍스트 원복
+  const saveBtn=document.querySelector('.btn-save');
+  if(saveBtn)saveBtn.textContent='저장 및 업데이트';
+  const title=document.querySelector('.m-title');
+  if(title)title.textContent='월 데이터 입력';
+  const sub=document.querySelector('.m-sub');
+  if(sub)sub.textContent='새로운 달의 수익 내역을 입력하세요';
+  document.getElementById('overlay').classList.remove('open');
+}
+function ovClick(e){if(e.target===document.getElementById('overlay'))closeModal();}
+
+function calcPrev(){
+  const a=parseFloat(document.getElementById('i-asset').value);
+  const io=parseFloat(document.getElementById('i-inout').value)||0;
+  if(!a){document.getElementById('calcBox').style.display='none';return;}
+  const prev=S.monthly[S.monthly.length-1];
+  const prevIn=S.monthly.reduce((s,d)=>s+d.inout,0);
+  const mpl=a-prev.asset-io,mret=prev.asset>0?mpl/prev.asset:0;
+  const cpl=prev.cumPL+mpl,newIn=prevIn+io,cret=newIn>0?(a-newIn)/newIn:0;
+  document.getElementById('calcBox').style.display='block';
+  const setV=(id,v,isAmt)=>{const el=document.getElementById(id);el.textContent=isAmt?(v>=0?'+':'')+fmtW(v):fmtP(v);el.className='calc-val '+(v>=0?'p':'n');};
+  document.getElementById('cp-prev').textContent=fmtW(prev.asset);document.getElementById('cp-prev').className='calc-val';
+  setV('cp-mpl',mpl,true);setV('cp-mret',mret,false);setV('cp-cpl',cpl,true);setV('cp-cret',cret,false);
+  document.getElementById('cp-tin').textContent=fmtW(newIn);document.getElementById('cp-tin').className='calc-val';
+  // show index hint
+  const kv2=parseFloat(document.getElementById('i-kospi').value);
+  const sv2=parseFloat(document.getElementById('i-sp500').value);
+  if(!isNaN(kv2)){const kr=(kv2-2559.79)/2559.79;document.getElementById('cp-tin').parentElement.insertAdjacentHTML('beforeend',`<div class="calc-row"><span class="calc-lbl">코스피 누적수익률</span><span class="calc-val ${kr>=0?'p':'n'}">${fmtP(kr)}</span></div>`);}
+  if(!isNaN(sv2)){const sr=(sv2-5569.06)/5569.06;document.getElementById('cp-tin').parentElement.insertAdjacentHTML('beforeend',`<div class="calc-row"><span class="calc-lbl">S&P500 누적수익률</span><span class="calc-val ${sr>=0?'p':'n'}">${fmtP(sr)}</span></div>`);}
+}
+
+function saveData(){
+  const dv=document.getElementById('i-date').value.trim();
+  const av=parseFloat(document.getElementById('i-asset').value);
+  const iv=parseFloat(document.getElementById('i-inout').value)||0;
+  const divv=parseFloat(document.getElementById('i-div').value)||0;
+  const kv=parseFloat(document.getElementById('i-kospi').value);
+  const sv=parseFloat(document.getElementById('i-sp500').value);
+  if(!dv||isNaN(av)){alert('날짜와 기말자산은 필수입니다.');return;}
+  const BASE_KOSPI=2559.79, BASE_SP500=5569.06;
+  let entry;
+
+  if(editingIdx>=0){
+    // 수정 모드: 손익/수익률은 기존 값 유지, 변경된 항목만 업데이트
+    const old=S.monthly[editingIdx];
+    const kospiIdx=isNaN(kv)?old.kospiIdx:kv;
+    const sp500Idx=isNaN(sv)?old.sp500Idx:sv;
+    entry={...old,
+      date:dv, asset:av, inout:iv, div:divv,
+      kospiIdx, sp500Idx,
+      kosPiRet:(kospiIdx-BASE_KOSPI)/BASE_KOSPI,
+      sp500Ret:(sp500Idx-BASE_SP500)/BASE_SP500
+      // monthPL, monthRet, cumPL, cumRet → 기존 값 그대로 유지
+    };
+    S.monthly[editingIdx]=entry;
+  } else {
+    // 새 입력 모드
+    const prev=S.monthly[S.monthly.length-1];
+    const prevIn=S.monthly.reduce((s,d)=>s+d.inout,0);
+    const monthPL=av-prev.asset-iv, monthRet=prev.asset>0?monthPL/prev.asset:0;
+    const cumPL=prev.cumPL+monthPL, newIn=prevIn+iv, cumRet=newIn>0?(av-newIn)/newIn:0;
+    const kospiIdx=isNaN(kv)?prev.kospiIdx:kv;
+    const sp500Idx=isNaN(sv)?prev.sp500Idx:sv;
+    entry={date:dv,asset:av,inout:iv,div:divv,monthPL,cumPL,monthRet,cumRet,
+      kospiIdx, sp500Idx,
+      kosPiRet:(kospiIdx-BASE_KOSPI)/BASE_KOSPI,
+      sp500Ret:(sp500Idx-BASE_SP500)/BASE_SP500};
+    const idx=S.monthly.findIndex(d=>d.date===dv);
+    if(idx>=0)S.monthly[idx]=entry;else S.monthly.push(entry);
+  }
+
+  const nh=S.holdings.map((h,i)=>{
+    const p=parseFloat(document.getElementById(`hP${i}`)?.value);
+    const a=parseFloat(document.getElementById(`hA${i}`)?.value);
+    const r=parseFloat(document.getElementById(`hR${i}`)?.value);
+    return{...h,pct:isNaN(p)?h.pct:p/100,amt:isNaN(a)?Math.round(av*(isNaN(p)?h.pct:p/100)):a,ret:isNaN(r)?h.ret:r};
+  });
+  S.holdings=nh;persist();closeModal();renderAll();
+  showToast('✓ '+dv+' 데이터가 저장되었습니다!');
+}
+
+
+// ─── YEAR SUMMARY ───
+function renderYearSummary(monthly){
+  const el=document.getElementById('yearSummary');
+  if(!el)return;
+  // 연도별 그룹핑
+  const years={};
+  monthly.forEach(d=>{
+    const y=d.date.match(/(\d+)년/);
+    if(!y)return;
+    const yr='20'+y[1];
+    if(!years[yr])years[yr]={months:[],totalDiv:0};
+    years[yr].months.push(d);
+    years[yr].totalDiv+=(d.div||0);
+  });
+  el.innerHTML='';
+  Object.keys(years).sort().forEach(yr=>{
+    const mths=years[yr].months;
+    const first=mths[0],last=mths[mths.length-1];
+    // 연도 손익 = 각 월 손익 합산
+    const yearPL=mths.reduce((s,d)=>s+d.monthPL,0);
+    // 연도 수익률 = 첫달 기초자산 대비
+    const idx=monthly.indexOf(first);
+    const startAsset=idx>0?monthly[idx-1].asset:mths.reduce((s,d)=>s+d.inout,0);
+    const yearRet=startAsset>0?yearPL/startAsset:0;
+    const totalInYear=mths.reduce((s,d)=>s+d.inout,0);
+    const div=years[yr].totalDiv;
+    const card=document.createElement('div');
+    card.className='year-card';
+    card.innerHTML=`
+      <div class="year-badge">📅 ${yr}년</div>
+      <div class="year-pl ${yearPL>=0?'p':'n'}">${(yearPL>=0?'+':'')+fmtW(yearPL)}</div>
+      <div class="year-ret ${yearRet>=0?'p':'n'}">${(yearRet>=0?'+':'')+(yearRet*100).toFixed(2)}% 연간 수익률</div>
+      <div class="year-meta">
+        <div class="year-meta-row"><span>입금액</span><span class="year-meta-val">${fmtW(totalInYear)}</span></div>
+        <div class="year-meta-row"><span>배당수령</span><span class="year-meta-val" style="color:${div>0?'var(--green)':'var(--t3)'}">${div>0?'+'+fmtW(div):'-'}</span></div>
+        <div class="year-meta-row"><span>기간</span><span class="year-meta-val">${first.date} ~ ${last.date} (${mths.length}개월)</span></div>
+        <div class="year-meta-row"><span>기말자산</span><span class="year-meta-val">${fmtW(last.asset)}</span></div>
+      </div>`;
+    el.appendChild(card);
+  });
+}
+
+// ─── YEAR CHARTS ───
+function getYearData(monthly){
+  const years={};
+  monthly.forEach(d=>{
+    const y=d.date.match(/(\d+)년/);
+    if(!y)return;
+    const yr='20'+y[1];
+    if(!years[yr])years[yr]={months:[],totalDiv:0};
+    years[yr].months.push(d);
+    years[yr].totalDiv+=(d.div||0);
+  });
+  return Object.keys(years).sort().map(yr=>{
+    const mths=years[yr].months;
+    const first=mths[0],last=mths[mths.length-1];
+    const yearPL=mths.reduce((s,d)=>s+d.monthPL,0);
+    const idx=monthly.indexOf(first);
+    // 첫 달이면 해당 연도 총 입금액을 기준으로 수익률 계산
+    const startAsset=idx>0?monthly[idx-1].asset:mths.reduce((s,d)=>s+d.inout,0);
+    const yearRet=startAsset>0?yearPL/startAsset:0;
+    const totalInYear=mths.reduce((s,d)=>s+d.inout,0);
+    return{yr,yearPL,yearRet,totalInYear,div:years[yr].totalDiv,first,last,mths};
+  });
+}
+
+function renderYearCharts(monthly){
+  const data=getYearData(monthly);
+  if(!data.length)return;
+
+  // 스탯 카드
+  const sc=document.getElementById('yearStatCards');
+  if(sc){
+    sc.innerHTML='';
+    data.forEach(d=>{
+      const el=document.createElement('div');
+      el.style.cssText='flex:1;min-width:140px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;';
+      el.innerHTML=`
+        <div style="font-size:11px;color:var(--blue);font-weight:800;letter-spacing:.5px;margin-bottom:6px">📅 ${d.yr}년</div>
+        <div style="font-family:'Pretendard',sans-serif;font-size:18px;font-weight:900;letter-spacing:-.5px;color:${d.yearPL>=0?'#10b981':'#ef4444'}">${(d.yearPL>=0?'+':'')+fmtW(d.yearPL)}</div>
+        <div style="font-size:12px;font-weight:700;color:${d.yearRet>=0?'#10b981':'#ef4444'};margin-top:3px">${(d.yearRet>=0?'+':'')+(d.yearRet*100).toFixed(2)}%</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:6px">${d.first.date} ~ ${d.last.date} · ${d.mths.length}개월</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:2px">입금 ${fmt(d.totalInYear)}${d.div>0?' · 배당 +'+fmt(d.div):''}</div>`;
+      sc.appendChild(el);
+    });
+  }
+
+  // 수익금 차트
+  killChart('yearPL');
+  const c1=document.getElementById('yearPLChart');
+  if(c1){
+    const o=JSON.parse(JSON.stringify(COPTS));
+    o.plugins.tooltip.callbacks={label:c=>' '+(c.parsed.y>=0?'+':'')+fmtW(c.parsed.y)};
+    o.scales.y.ticks={color:'#64748b',font:{size:11},callback:v=>{const a=Math.abs(v);return(v<0?'-':'')+(a>=1e8?(a/1e8).toFixed(1)+'억':a>=1e4?Math.round(a/1e4)+'만':v);}};
+    CI.yearPL=new Chart(c1.getContext('2d'),{type:'bar',data:{
+      labels:data.map(d=>d.yr+'년'),
+      datasets:[{label:'연간 수익금',data:data.map(d=>d.yearPL),
+        backgroundColor:data.map(d=>d.yearPL>=0?'rgba(16,185,129,0.7)':'rgba(239,68,68,0.7)'),
+        borderColor:data.map(d=>d.yearPL>=0?'#10b981':'#ef4444'),
+        borderWidth:1,borderRadius:6}]
+    },options:o});
+  }
+
+  // 수익률 차트
+  killChart('yearRet');
+  const c2=document.getElementById('yearRetChart');
+  if(c2){
+    const o=JSON.parse(JSON.stringify(COPTS));
+    o.plugins.tooltip.callbacks={label:c=>' '+(c.parsed.y>=0?'+':'')+c.parsed.y.toFixed(2)+'%'};
+    o.scales.y.ticks={color:'#64748b',font:{size:11},callback:v=>v.toFixed(1)+'%'};
+    CI.yearRet=new Chart(c2.getContext('2d'),{type:'bar',data:{
+      labels:data.map(d=>d.yr+'년'),
+      datasets:[{label:'연간 수익률',data:data.map(d=>d.yearRet*100),
+        backgroundColor:data.map(d=>d.yearRet>=0?'rgba(59,130,246,0.7)':'rgba(239,68,68,0.7)'),
+        borderColor:data.map(d=>d.yearRet>=0?'#3b82f6':'#ef4444'),
+        borderWidth:1,borderRadius:6}]
+    },options:o});
+  }
+}
+
+// ─── EDIT / DELETE ROW ───
+let editingIdx = -1; // -1이면 새 입력, 0이상이면 수정 모드
+
+function editRow(idx){
+  const d=S.monthly[idx];
+  editingIdx=idx;
+  openModal();
+  setTimeout(()=>{
+    document.getElementById('i-date').value=d.date;
+    document.getElementById('i-asset').value=d.asset;
+    document.getElementById('i-inout').value=d.inout||0;
+    document.getElementById('i-div').value=d.div||0;
+    document.getElementById('i-kospi').value=d.kospiIdx||'';
+    document.getElementById('i-sp500').value=d.sp500Idx||'';
+    // 보유 종목 값도 채우기
+    S.holdings.forEach((h,i)=>{
+      const pEl=document.getElementById(`hP${i}`);
+      const aEl=document.getElementById(`hA${i}`);
+      const rEl=document.getElementById(`hR${i}`);
+      if(pEl)pEl.value=(h.pct*100).toFixed(2);
+      if(aEl)aEl.value=h.amt;
+      if(rEl&&h.ret!==null)rEl.value=h.ret;
+    });
+    document.querySelector('.m-title').textContent='데이터 수정';
+    document.querySelector('.m-sub').textContent=d.date+' 데이터를 수정하세요 · 변경할 항목만 수정하세요';
+    document.querySelector('.btn-save').textContent='수정 저장';
+    // 미리보기 숨기기 (수정 모드에서는 불필요)
+    document.getElementById('calcBox').style.display='none';
+  },50);
+}
+
+function deleteRow(idx){
+  const d=S.monthly[idx];
+  if(idx===0){alert('첫 번째 데이터는 삭제할 수 없어요.');return;}
+  if(!confirm(`${d.date} 데이터를 삭제할까요?`))return;
+  S.monthly.splice(idx,1);
+  persist();
+  renderAll();
+  showToast('✓ '+d.date+' 데이터가 삭제됐어요.');
+}
+
+// ─── RESET ALL DATA ───
+function resetAllData(){
+  if(!confirm('⚠️ 전체 초기화\n\n브라우저에 저장된 모든 데이터가 삭제되고\nHTML 파일 기본 데이터로 리셋돼요.\n\n계속할까요?'))return;
+  localStorage.removeItem('pf_m');
+  localStorage.removeItem('pf_h');
+  S=load();
+  renderAll();
+  closeModal();
+  showToast('✓ 초기화 완료! 기본 데이터로 리셋됐어요.');
+}
+
+// ─── EXPORT JSON ───
+function exportJSON(){
+  const data={
+    exported: new Date().toLocaleDateString('ko-KR'),
+    version: '1.0',
+    monthly: S.monthly,
+    holdings: S.holdings,
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='포트폴리오_백업_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✓ 백업 파일이 다운로드됐어요!');
+}
+
+// ─── IMPORT JSON ───
+function importJSON(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.monthly||!data.holdings){alert('올바른 백업 파일이 아니에요.');return;}
+      if(!confirm(`백업 날짜: ${data.exported||'알 수 없음'}\n\n이 데이터로 복원할까요? 현재 데이터는 덮어씌워져요.`))return;
+      S.monthly=data.monthly;
+      S.holdings=data.holdings;
+      persist();
+      renderAll();
+      showToast('✓ 데이터가 복원됐어요!');
+    }catch(err){
+      alert('파일을 읽는 중 오류가 발생했어요. 올바른 JSON 파일인지 확인해주세요.');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value='';
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+window.addEventListener('load',renderAll);
+</script>
+</body>
+</html>

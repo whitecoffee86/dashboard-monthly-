@@ -533,7 +533,7 @@ const TIERS=[
 
 // ─── STATE ───
 // 버전 바뀌면 캐시 자동 초기화 (새 HTML 배포 시 버전 올리기)
-const DATA_VERSION='2026-04-02-v2';
+const DATA_VERSION='2026-04-02-v3';
 function load(){
   try{
     const ver=localStorage.getItem('pf_ver');
@@ -587,7 +587,9 @@ function renderAll(){
   const totalIn=monthly.reduce((s,d)=>s+d.inout,0);
   const months=monthly.length-1;
   const years=months/12;
-  const cagr=years>0&&totalIn>0?Math.pow(last.asset/totalIn,1/years)-1:0;
+  // CAGR: 엑셀 기준 누적수익률(시간가중) 기반
+  // cumRet = 엑셀의 손익INDEX 기반 시간가중수익률 → 가장 정확
+  const cagr=years>0?Math.pow(1+last.cumRet,1/years)-1:0;
   const traded=monthly.slice(1);
   const best=traded.reduce((a,b)=>b.monthRet>a.monthRet?b:a,traded[0]);
   const worst=traded.reduce((a,b)=>b.monthRet<a.monthRet?b:a,traded[0]);

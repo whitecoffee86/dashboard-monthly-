@@ -533,7 +533,7 @@ const TIERS=[
 
 // ─── STATE ───
 // 버전 바뀌면 캐시 자동 초기화 (새 HTML 배포 시 버전 올리기)
-const DATA_VERSION='2026-04-02-v3';
+const DATA_VERSION='2026-04-02-v5';
 function load(){
   try{
     const ver=localStorage.getItem('pf_ver');
@@ -778,17 +778,28 @@ function getRetFilteredData(){
   const yr=retYearFilter.replace('년','');
   const filtered=S.monthly.filter(d=>d.date.startsWith(yr.slice(2)));
   if(!filtered.length)return S.monthly;
-  // 해당 연도 첫 달의 직전 달을 기준점으로 추가 (수익률 0% 기준점)
+  // 기준점 = 전년도 12월 말 (없으면 해당 연도 첫 달 직전)
   const firstIdx=S.monthly.indexOf(filtered[0]);
   const base=firstIdx>0?S.monthly[firstIdx-1]:null;
-  // 필터된 첫 달을 기준(0%)으로 상대 수익률 계산
-  const base2=filtered[0];
-  return filtered.map(d=>({
+  if(!base){
+    // 첫 해: 첫 달 자체를 기준으로
+    const base2=filtered[0];
+    return filtered.map(d=>({
+      ...d,
+      _relRet:   (d.cumRet - base2.cumRet)/(1+base2.cumRet)*100,
+      _relKospi: base2.kospiIdx?(d.kospiIdx-base2.kospiIdx)/base2.kospiIdx*100:(d.kosPiRet-base2.kosPiRet)*100,
+      _relSP:    base2.sp500Idx?(d.sp500Idx-base2.sp500Idx)/base2.sp500Idx*100:(d.sp500Ret-base2.sp500Ret)*100,
+    }));
+  }
+  // 전년 12월(base)을 0% 기준점으로 앞에 추가 → 차트가 0%에서 시작
+  const baseEntry={...base, _relRet:0, _relKospi:0, _relSP:0};
+  const mapped=filtered.map(d=>({
     ...d,
-    _relRet:   (d.cumRet - base2.cumRet)/(1+base2.cumRet)*100,
-    _relKospi: base2.kospiIdx ? (d.kospiIdx - base2.kospiIdx)/base2.kospiIdx*100 : (d.kosPiRet - base2.kosPiRet)*100,
-    _relSP:    base2.sp500Idx ? (d.sp500Idx - base2.sp500Idx)/base2.sp500Idx*100 : (d.sp500Ret - base2.sp500Ret)*100,
+    _relRet:   (d.cumRet - base.cumRet)/(1+base.cumRet)*100,
+    _relKospi: base.kospiIdx?(d.kospiIdx-base.kospiIdx)/base.kospiIdx*100:(d.kosPiRet-base.kosPiRet)*100,
+    _relSP:    base.sp500Idx?(d.sp500Idx-base.sp500Idx)/base.sp500Idx*100:(d.sp500Ret-base.sp500Ret)*100,
   }));
+  return [baseEntry, ...mapped];
 }
 
 function renderRetChart(){

@@ -438,7 +438,7 @@ tbody tr:last-child td{border-bottom:none;}
   <div class="m-sec">
     <div class="m-sec-title">📅 기본 정보</div>
     <div class="fg">
-      <div class="fg-grp"><label class="flbl">날짜</label><input class="finp" id="i-date" placeholder="26년 03월"/></div>
+      <div class="fg-grp"><label class="flbl">날짜</label><input class="finp" id="i-date" placeholder="26년 05월"/></div>
       <div class="fg-grp"><label class="flbl">기말자산 (원)</label><input class="finp" id="i-asset" type="number" placeholder="340000000" oninput="calcPrev()"/><span class="fhint">월말 총 평가자산</span></div>
       <div class="fg-grp"><label class="flbl">이번 달 입출금 (원)</label><input class="finp" id="i-inout" type="number" placeholder="0" oninput="calcPrev()"/><span class="fhint">추가 입금(+) / 출금(-)</span></div>
       <div class="fg-grp"><label class="flbl">💵 이번 달 배당금 (원)</label><input class="finp" id="i-div" type="number" placeholder="0"/><span class="fhint">이번 달 수령한 배당금 합계</span></div>
@@ -508,15 +508,16 @@ const INIT_M=[
   {date:'26년 01월',asset:304811995,inout:34830296, monthPL:3482060,  cumPL:36913174, monthRet:0.011556, cumRet:0.208100, kospiIdx:5224.36,sp500Idx:6939.03,kosPiRet:1.040933, sp500Ret:0.245997, div:42219},
   {date:'26년 02월',asset:326776776,inout:26829000, monthPL:-4864219, cumPL:32048955, monthRet:-0.014667,cumRet:0.190381, kospiIdx:6244.13,sp500Idx:6908.86,kosPiRet:1.439313, sp500Ret:0.240579, div:149514},
   {date:'26년 03월',asset:335269938,inout:9906997,  monthPL:-1413835, cumPL:30635120, monthRet:-0.004199,cumRet:0.185382, kospiIdx:5052.46,sp500Idx:6343.72,kosPiRet:0.973779, sp500Ret:0.139101, div:752270},
+  {date:'26년 04월',asset:355841389,inout:7899997,  monthPL:12671454,  cumPL:43306574, monthRet:0.036925, cumRet:0.229152, kospiIdx:6598.87,sp500Idx:7135.95,kosPiRet:1.577895, sp500Ret:0.281356, div:164195},
 ];
 const INIT_H=[
-  {ticker:'QQQM',pct:0.384975,amt:129070708,color:'#3b82f6',ret:-5.7},
-  {ticker:'SCHD',pct:0.194268,amt:65132321, color:'#10b981',ret:6.6},
-  {ticker:'TLT', pct:0.123991,amt:41570305, color:'#8b5cf6',ret:-1.4},
-  {ticker:'BTC', pct:0.159858,amt:53595418, color:'#f59e0b',ret:-20.9},
-  {ticker:'IAU', pct:0.083551,amt:28012288, color:'#f97316',ret:5.4},
-  {ticker:'ETH', pct:0.013472,amt:4516660,  color:'#06b6d4',ret:-26.77},
-  {ticker:'MCHI',pct:0.039885,amt:13372238, color:'#ec4899',ret:-10.0},
+  {ticker:'QQQM',pct:0.405653,amt:144348283,color:'#3b82f6',ret:7.95},
+  {ticker:'SCHD',pct:0.180269,amt:64147151, color:'#10b981',ret:11.04},
+  {ticker:'TLT', pct:0.110371,amt:39274660, color:'#8b5cf6',ret:-1.23},
+  {ticker:'BTC', pct:0.173990,amt:61912818, color:'#f59e0b',ret:12.49},
+  {ticker:'IAU', pct:0.076370,amt:27175665, color:'#f97316',ret:3.48},
+  {ticker:'ETH', pct:0.016273,amt:5790489,  color:'#06b6d4',ret:21.19},
+  {ticker:'MCHI',pct:0.037074,amt:13192323, color:'#ec4899',ret:-8.2},
 ];
 const GOALS=[
   {label:'1차 목표',target:300000000,color:'#10b981'},
@@ -533,7 +534,7 @@ const TIERS=[
 
 // ─── STATE ───
 // 버전 바뀌면 캐시 자동 초기화 (새 HTML 배포 시 버전 올리기)
-const DATA_VERSION='2026-04-02-v5';
+const DATA_VERSION='2026-04-30-v1';
 function load(){
   try{
     const ver=localStorage.getItem('pf_ver');

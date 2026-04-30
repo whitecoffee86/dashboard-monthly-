@@ -514,9 +514,9 @@ const INIT_H=[
   {ticker:'QQQM',pct:0.405653,amt:144348283,color:'#3b82f6',ret:7.95},
   {ticker:'SCHD',pct:0.180269,amt:64147151, color:'#10b981',ret:11.04},
   {ticker:'TLT', pct:0.110371,amt:39274660, color:'#8b5cf6',ret:-1.23},
-  {ticker:'BTC', pct:0.173990,amt:61912818, color:'#f59e0b',ret:12.49},
+  {ticker:'BTC', pct:0.173990,amt:61912818, color:'#f59e0b',ret:-12.49},
   {ticker:'IAU', pct:0.076370,amt:27175665, color:'#f97316',ret:3.48},
-  {ticker:'ETH', pct:0.016273,amt:5790489,  color:'#06b6d4',ret:21.19},
+  {ticker:'ETH', pct:0.016273,amt:5790489,  color:'#06b6d4',ret:-21.19},
   {ticker:'MCHI',pct:0.037074,amt:13192323, color:'#ec4899',ret:-8.2},
 ];
 const GOALS=[
@@ -534,7 +534,7 @@ const TIERS=[
 
 // ─── STATE ───
 // 버전 바뀌면 캐시 자동 초기화 (새 HTML 배포 시 버전 올리기)
-const DATA_VERSION='2026-04-30-v1';
+const DATA_VERSION='2026-04-30-v2';
 function load(){
   try{
     const ver=localStorage.getItem('pf_ver');

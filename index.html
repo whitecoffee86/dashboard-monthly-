@@ -509,20 +509,22 @@ const INIT_M=[
   {date:'26년 02월',asset:326776776,inout:26829000, monthPL:-4864219, cumPL:32048955, monthRet:-0.014667,cumRet:0.190381, kospiIdx:6244.13,sp500Idx:6908.86,kosPiRet:1.439313, sp500Ret:0.240579, div:149514},
   {date:'26년 03월',asset:335269938,inout:9906997,  monthPL:-1413835, cumPL:30635120, monthRet:-0.004199,cumRet:0.185382, kospiIdx:5052.46,sp500Idx:6343.72,kosPiRet:0.973779, sp500Ret:0.139101, div:752270},
   {date:'26년 04월',asset:355841389,inout:7899997,  monthPL:12671454,  cumPL:43306574, monthRet:0.036925, cumRet:0.229152, kospiIdx:6598.87,sp500Idx:7135.95,kosPiRet:1.577895, sp500Ret:0.281356, div:164195},
+  {date:'26년 05월',asset:397395180,inout:7695997,  monthPL:33857794,  cumPL:77164368, monthRet:0.093134, cumRet:0.343628, kospiIdx:8476.15,sp500Idx:7563.63,kosPiRet:2.311268, sp500Ret:0.358152, div:147923},
 ];
 const INIT_H=[
-  {ticker:'QQQM',pct:0.405653,amt:144348283,color:'#3b82f6',ret:7.95},
-  {ticker:'SCHD',pct:0.180269,amt:64147151, color:'#10b981',ret:11.04},
-  {ticker:'TLT', pct:0.110371,amt:39274660, color:'#8b5cf6',ret:-1.23},
-  {ticker:'BTC', pct:0.173990,amt:61912818, color:'#f59e0b',ret:-12.49},
-  {ticker:'IAU', pct:0.076370,amt:27175665, color:'#f97316',ret:3.48},
-  {ticker:'ETH', pct:0.016273,amt:5790489,  color:'#06b6d4',ret:-21.19},
-  {ticker:'MCHI',pct:0.037074,amt:13192323, color:'#ec4899',ret:-8.2},
+  {ticker:'QQQM',pct:0.440591,amt:175088657,color:'#3b82f6',ret:21.71},
+  {ticker:'SCHD',pct:0.179102,amt:71174280, color:'#10b981',ret:17.08},
+  {ticker:'TLT', pct:0.106796,amt:42440384, color:'#8b5cf6',ret:1.01},
+  {ticker:'BTC', pct:0.153223,amt:60890196, color:'#f59e0b',ret:-15.91},
+  {ticker:'IAU', pct:0.071551,amt:28433825, color:'#f97316',ret:2.44},
+  {ticker:'ETH', pct:0.014070,amt:5591166,  color:'#06b6d4',ret:-28.95},
+  {ticker:'MCHI',pct:0.034667,amt:13776672, color:'#ec4899',ret:-8.84},
 ];
 const GOALS=[
   {label:'1차 목표',target:300000000,color:'#10b981'},
   {label:'2차 목표',target:400000000,color:'#3b82f6'},
-  {label:'3차 목표',target:500000000,color:'#8b5cf6'},
+  {label:'3차 목표',target:550000000,color:'#8b5cf6'},
+  {label:'4차 목표',target:750000000,color:'#f97316'},
   {label:'최종 목표',target:1000000000,color:'#f59e0b'},
 ];
 const TIERS=[
@@ -534,7 +536,7 @@ const TIERS=[
 
 // ─── STATE ───
 // 버전 바뀌면 캐시 자동 초기화 (새 HTML 배포 시 버전 올리기)
-const DATA_VERSION='2026-04-30-v2';
+const DATA_VERSION='2026-05-29-v1';
 function load(){
   try{
     const ver=localStorage.getItem('pf_ver');
